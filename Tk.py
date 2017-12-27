@@ -3,6 +3,7 @@ from Family import *
 from DatabaseAccess import *
 from ttk import *
 import tkMessageBox
+from MainWindow import *
 from tkintertable import TableCanvas, TableModel
 
 
@@ -196,73 +197,101 @@ def search():
 
     search_root.mainloop()
 
+def onselect(evt):
+    # Note here that Tkinter passes an event object to onselect()
+    w = evt.widget
+    index = int(w.curselection()[0])
+    value = w.get(index)
+
+
+
+
+
 
 root = Tk()
-#root.resizable(0,0)
-root.geometry("+700+300")
-familyLabel = Label(root,text="Families:")
-familyLabel.grid(row=2, padx = 5, sticky = W + S)
-root.minsize(width=690, height=420)
-root.maxsize(width=690, height=420)
 
-# All database access operations will be done by this object
-dbAccess = DatabaseAccess()
-
-id_List = dbAccess.getIDList()
-
-scrollbar = Scrollbar(root)
-scrollbar.grid(row = 3,column = 2, rowspan = 3,sticky = N + S)
-#scrollbar.config(height = 16)
-
-listbox = Listbox(root, yscrollcommand=scrollbar.set)
-listbox.config(width=16, height=20)
-listbox.grid(row=3,column = 0,rowspan = 3, padx = 5)
-
-root.grid_rowconfigure(1, minsize=10)
-root.grid_columnconfigure(4, minsize=50)
-#root.grid_rowconfigure(10, minsize=100)
+gui = MainWindow(root)
 
 
-for item in id_List:
-    listbox.insert(END, item)
+
+# #root.resizable(0,0)
+# root.geometry("+700+300")
+# familyLabel = Label(root,text="Families:")
+# familyLabel.grid(row=2, padx = 5, sticky = W + S)
+# root.minsize(width=690, height=420)
+# root.maxsize(width=690, height=420)
+#
+# # All database access operations will be done by this object
+# dbAccess = DatabaseAccess()
+#
+# id_List = dbAccess.getIDList()
+#
+# scrollbar = Scrollbar(root)
+# scrollbar.grid(row = 3,column = 2, rowspan = 3,sticky = N + S)
+# #scrollbar.config(height = 16)
+#
+# listbox = Listbox(root, yscrollcommand=scrollbar.set)
+# listbox.config(width=16, height=20)
+# listbox.grid(row=3,column = 0,rowspan = 3, padx = 5)
+# listbox.bind('<<ListboxSelect>>', onselect)
+#
+# root.grid_rowconfigure(1, minsize=10)
+# root.grid_columnconfigure(4, minsize=50)
+# #root.grid_rowconfigure(10, minsize=100)
+#
+#
+# for item in id_List:
+#     listbox.insert(END, item)
+#
+#
+# scrollbar.config(command=listbox.yview)
+#
+#
+# add_button = Button(root, text = 'Add' , width = 10, command = add)
+# add_button.grid(row = 15, column = 9,padx = 5, pady = 2, sticky = E)
+#
+# exit_button = Button(root, text = 'Exit', width = 10, command = root.destroy)
+# exit_button.grid(row = 15, column = 10,padx = 5, pady = 2, sticky = W)
+#
+# view_button = Button(root, text = 'View', width = 10, command = lambda: viewEntry(map(int, listbox.curselection())))
+# view_button.grid(row = 14, column = 9, padx = 5, pady = 2, sticky = E)
+#
+# delete_button = Button(root, text = 'Delete', width = 10, command = deleteEntry)
+# delete_button.grid(row = 14, column = 10, padx = 5, pady = 2, sticky = W)
+#
+# search_button = Button(root, text = 'Search', width = 10, command = search)
+# search_button.grid(row = 13, column = 10, padx = 5, pady = 2, sticky = W)
+#
+# edit_button = Button(root, text = 'Edit', width = 10, command = search)
+# edit_button.grid(row = 13, column = 9, padx = 5, pady = 2, sticky = E)
+#
+#
+# root.grid_columnconfigure(9, minsize=10)
+# root.grid_rowconfigure(5, minsize=5)
+#
+#
+# #root.grid_columnconfigure(7, minsize=100)
+# #root.grid_rowconfigure(4, minsize=100)
+#
+# displayFrame = Frame(root)
+#
+# height = 5
+# width = 5
+# for i in range(height): #Rows
+#     for j in range(width): #Columns
+#         b = Label(displayFrame, text="" , relief = RAISED, width = 10)
+#         b.grid(row=i, column=j)
+#
+# displayFrame.grid(row = 3, column = 7, columnspan =4, rowspan = 10, padx = 5)
+#
+#
 
 
-scrollbar.config(command=listbox.yview)
 
-
-add_button = Button(root, text = 'Add' , width = 10, command = add)
-add_button.grid(row = 15, column = 9,padx = 5, pady = 2, sticky = E)
-
-exit_button = Button(root, text = 'Exit', width = 10, command = root.destroy)
-exit_button.grid(row = 15, column = 10,padx = 5, pady = 2, sticky = W)
-
-view_button = Button(root, text = 'View', width = 10, command = lambda: viewEntry(map(int, listbox.curselection())))
-view_button.grid(row = 14, column = 9, padx = 5, pady = 2, sticky = E)
-
-delete_button = Button(root, text = 'Delete', width = 10, command = deleteEntry)
-delete_button.grid(row = 14, column = 10, padx = 5, pady = 2, sticky = W)
-
-search_button = Button(root, text = 'Search', width = 10, command = search)
-search_button.grid(row = 13, column = 10, padx = 5, pady = 2, sticky = W)
-
-edit_button = Button(root, text = 'Edit', width = 10, command = search)
-edit_button.grid(row = 13, column = 9, padx = 5, pady = 2, sticky = E)
-
-
-root.grid_columnconfigure(9, minsize=10)
-root.grid_rowconfigure(5, minsize=5)
-
-
-root.grid_columnconfigure(7, minsize=100)
-#root.grid_rowconfigure(4, minsize=100)
-
-displayFrame = Frame(root)
-
-
-tframe = Frame(root,width = 20, height  = 5)
-tframe.grid(row = 3, column = 7, columnspan =4)
-table = TableCanvas(tframe, rows = 4, cols = 4, sticky = W)
-table.createTableFrame()
+#tframe = Frame(root,width = 20, height  = 5)
+#tframe.grid(row = 3, column = 7, columnspan =4)
+#table = TableCanvas(tframe, rows = 4, cols = 4, sticky = W)
+#table.createTableFrame()
 
 
 
